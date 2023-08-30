@@ -18,10 +18,19 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+main {
+  padding: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    padding: 32px;
+  }
 }
