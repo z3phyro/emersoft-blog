@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "prettier:format": "prettier . -w",
+    "prettier:check": "prettier . --check",
+    "eslint:check": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "fix": "prettier . -w && eslint . --fix"
   },
   "dependencies": {
     "@types/node": "20.5.7",
@@ -21,5 +25,8 @@
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
   }
 }
