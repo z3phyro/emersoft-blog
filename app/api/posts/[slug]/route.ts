@@ -1,10 +1,16 @@
-import { loadPosts } from "@/helpers/posts.helper";
+import { findCategories } from "@/helpers/categories.helper";
+import { loadCategories, loadPosts } from "@/helpers/data.helper";
 import { NextResponse } from "next/server";
 
 export async function GET(_: Request, { params: { slug } }: { params: { slug: string } }) {
   const data = loadPosts();
-  // I still need to deal with missing data
+  const categories = loadCategories();
+
   const post = data.find((post) => post.slug === slug);
 
-  return NextResponse.json(post);
+  if (post) {
+    post.categoriesData = findCategories(post?.categories, categories);
+  }
+
+  return NextResponse.json(post || null);
 }

@@ -1,3 +1,5 @@
+import { TCategory } from "./category.model";
+
 export type TPost = {
   id: number;
   slug: string;
@@ -5,4 +7,5 @@ export type TPost = {
   excerpt: string;
   imageUrl: string;
   categories: number[];
+  categoriesData?: TCategory[];
 };

@@ -1,36 +1,57 @@
 "use client";
 
+import { SEARCH_PARAM_KEY } from "@/config/constants.config";
 import { POSTS_ROUTE } from "@/config/routes.config";
 import { TPost } from "@/data/models/post.model";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ImageWithFallback } from "../image-with-fallback/image-with-fallback.component";
+import { TCategory } from "@/data/models/category.model";
+import Category from "../category/category.component";
+import { PLACEHOLDER_IMAGE_DATA } from "@/config/image.config";
 
-type Props = Omit<TPost, "id">;
+type Props = Omit<TPost, "id"> & {
+  categoriesData: TCategory[];
+};
 
 export default function BlogPost(props: Props) {
   const router = useRouter();
+  const params = useSearchParams();
+  const search = params.get(SEARCH_PARAM_KEY) || "";
+
   return (
     <article
       onClick={() => router.push(`${POSTS_ROUTE}/${props.slug}`)}
-      className="rounded shadow-md bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 cursor-pointer">
-      <Image
+      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 cursor-pointer">
+      <ImageWithFallback
         className="rounded-t object-cover"
         src={props.imageUrl}
         alt={props.title}
         width={400}
         height={300}
+        placeholder={PLACEHOLDER_IMAGE_DATA}
       />
       <div className="p-4">
         <div className="flex gap-4 mb-2">
-          {props.categories.map((category) => (
-            <Link key={category} href={`${category}`}>
-              {category}
-            </Link>
+          {props.categoriesData.map((category) => (
+            <Category
+              key={category.id}
+              href={`${POSTS_ROUTE}?category=${category.name}&search=${search}`}
+              onClick={(e) => e.stopPropagation()}
+              name={category.name}
+            />
           ))}
         </div>
-        <h3 className="mb-2 text-lg font-extrabold">{props.title}</h3>
-        <p className="text-gray-600">{props.excerpt}</p>
+        <h3 className="mb-2 text-lg font-extrabold">
+          <Link href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
+            {props.title}
+          </Link>
+        </h3>
+        <p className="text-gray-600">
+          <Link href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
+            {props.excerpt}
+          </Link>
+        </p>
       </div>
     </article>
   );

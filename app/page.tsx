@@ -1,30 +1,99 @@
-import Image from "next/image";
+import { CATEGORIES_ENDPOINT, POSTS_ENDPOINT } from "@/config/endpoints.config";
+import { TPost } from "@/data/models/post.model";
+import BlogPost from "@/components/post/post.component";
+import Link from "next/link";
+import { POSTS_ROUTE } from "@/config/routes.config";
+import {
+  CATEGORY_PARAM_KEY,
+  PAGE_PARAM_KEY,
+  PAGE_SIZE,
+  SEARCH_PARAM_KEY,
+} from "@/config/constants.config";
+import { TCategory } from "@/data/models/category.model";
+import { findCategories, getIdFromCategory } from "@/helpers/categories.helper";
+import Filters from "@/components/filters/filters.component";
+import { setValueAndGetUrlFromSearchParams } from "@/helpers/query-params.helper";
 
-export default function Home() {
+async function getData(): Promise<{ posts: TPost[]; categories: TCategory[] }> {
+  const [posts, categories] = await Promise.allSettled([
+    fetch(POSTS_ENDPOINT),
+    fetch(CATEGORIES_ENDPOINT),
+  ]);
+
+  return {
+    posts: await (posts as any).value.json(),
+    categories: await (categories as any).value.json(),
+  };
+}
+
+export const metadata = {
+  title: "Emersoft Blog",
+  description: "A blog to test applicants",
+  openGraph: {
+    images: ["/images/blog.jpg"],
+  },
+};
+
+export default async function Post({ searchParams }: { searchParams: any }) {
+  const { posts, categories } = await getData();
+
+  const page = Number(searchParams[PAGE_PARAM_KEY] || "1");
+  const category = searchParams[CATEGORY_PARAM_KEY];
+  const search = searchParams[SEARCH_PARAM_KEY];
+  const categoryId = category ? getIdFromCategory(category, categories) : undefined;
+
+  const filteredPosts = posts
+    .filter((post) => !search || post.title.toLowerCase().indexOf(search.toLowerCase()) > -1)
+    .filter((post) => !categoryId || post.categories.some((id) => id === categoryId))
+    .slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page);
+
   return (
-    <div className="mx-auto max-w-screen-md py-12">
-      <div className="relative mb-12 flex flex-col overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-        <img
-          alt="nature"
-          className="h-[32rem] w-full object-cover object-center"
-          src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2717&amp;q=80"
-        />
-      </div>
-      <h2 className="mb-2 block font-sans text-4xl font-semibold leading-[1.3] tracking-normal text-blue-gray-900 antialiased">
-        What is Material Tailwind
-      </h2>
-      <p className="block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
-        Can you help me out? you will get a lot of free exposure doing this can my website be in
-        english?. There is too much white space do less with more, so that will be a conversation
-        piece can you rework to make the pizza look more delicious other agencies charge much lesser
-        can you make the blue bluer?. I think we need to start from scratch can my website be in
-        english?, yet make it sexy i'll pay you in a week we don't need to pay upfront i hope you
-        understand can you make it stand out more?. Make the font bigger can you help me out? you
-        will get a lot of free exposure doing this that's going to be a chunk of change other
-        agencies charge much lesser. Are you busy this weekend? I have a new project with a tight
-        deadline that's going to be a chunk of change. There are more projects lined up charge extra
-        the next time.
-      </p>
-    </div>
+    <>
+      <Filters categories={categories} />
+      <section className="container">
+        <div className="flex flex-wrap justify-center xl:justify-start gap-8 mb-8">
+          {filteredPosts.length ? (
+            filteredPosts.map((post) => (
+              <BlogPost
+                key={post.slug}
+                {...post}
+                categoriesData={findCategories(post.categories, categories)}
+              />
+            ))
+          ) : (
+            <h3 className="text-center w-full">There are no results for this selection</h3>
+          )}
+        </div>
+      </section>
+
+      <ul className="flex justify-center items-center gap-4">
+        {page > 1 && (
+          <li>
+            <Link
+              className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
+              href={`${POSTS_ROUTE}?${setValueAndGetUrlFromSearchParams(
+                PAGE_PARAM_KEY,
+                (page - 1).toString(),
+                searchParams,
+              )}`}>
+              Previous
+            </Link>
+          </li>
+        )}
+        {filteredPosts.length === PAGE_SIZE && (
+          <li>
+            <Link
+              className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
+              href={`${POSTS_ROUTE}?${setValueAndGetUrlFromSearchParams(
+                PAGE_PARAM_KEY,
+                (page + 1).toString(),
+                searchParams,
+              )}`}>
+              Next
+            </Link>
+          </li>
+        )}
+      </ul>
+    </>
   );
 }
