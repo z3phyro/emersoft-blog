@@ -7,7 +7,6 @@ export const setValueAndGetUrlFromSearchParams = (
   value: string,
   searchParams: { [id: string]: string },
 ) => {
-  console.log(searchParams);
   const current = new URLSearchParams(Array.from(Object.entries(searchParams)));
   current.set(key, value);
   return current.toString();
