@@ -51,7 +51,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
     <>
       <Filters categories={categories} />
       <section className="container">
-        <div className="flex flex-wrap justify-center xl:justify-start gap-8 mb-8">
+        <div className="flex flex-wrap justify-center tablet:justify-start gap-8 mb-8">
           {filteredPosts.length ? (
             filteredPosts.map((post) => (
               <BlogPost
@@ -66,7 +66,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
         </div>
       </section>
 
-      <ul className="flex justify-center items-center gap-4">
+      <ul className="flex justify-center items-center gap-8">
         {page > 1 && (
           <li>
             <Link
@@ -81,7 +81,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
           </li>
         )}
         {filteredPosts.length === PAGE_SIZE && (
-          <li>
+          <li className="w-[97px]">
             <Link
               className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
               href={`${POSTS_ROUTE}?${setValueAndGetUrlFromSearchParams(
