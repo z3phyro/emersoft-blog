@@ -17,7 +17,7 @@ export default function TopMenu() {
           </a>
         </div>
         <ul className="flex items-center gap-6">
-          <li className="block p-1 text-gray-800 text-sm font-normal leading-normal text-inherit antialiased hover:subpixel-antialiased">
+          <li className="block p-1 text-gray-800 text-sm font-normal leading-normal antialiased hover:subpixel-antialiased">
             <Link className="flex items-center" href="/">
               Posts
             </Link>
