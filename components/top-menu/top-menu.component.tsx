@@ -1,3 +1,4 @@
+import Link from "next/link";
 import EmersoftSvg from "../svg/emersoft.svg";
 
 export default function TopMenu() {
@@ -15,6 +16,13 @@ export default function TopMenu() {
             Blog
           </a>
         </div>
+        <ul className="flex items-center gap-6">
+          <li className="block p-1 text-gray-800 text-sm font-normal leading-normal text-inherit antialiased hover:subpixel-antialiased">
+            <Link className="flex items-center" href="/">
+              Posts
+            </Link>
+          </li>
+        </ul>
       </nav>
     </>
   );
