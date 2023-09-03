@@ -12,7 +12,7 @@ export default function Input({ className, defaultValue, onChange, placeholder, 
         <span className={`absolute left-3 top-2 transition-color duration-300`}>{leading}</span>
       )}
       <input
-        className={`w-full p-2 bg-white rounded outline-0 shadow-md ease-in-out duration-300 text-sm h-[42px] ${
+        className={`w-full p-2 bg-white rounded outline-0 shadow-md text-sm h-[42px] ${
           leading ? "pl-10" : ""
         }`}
         defaultValue={defaultValue}
