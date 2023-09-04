@@ -71,7 +71,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
           <li>
             <Link
               aria-label="Previous page button"
-              className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
+              className="btn-pagination"
               href={`${POSTS_ROUTE}?${setValueAndGetUrlFromSearchParams(
                 PAGE_PARAM_KEY,
                 (page - 1).toString(),
@@ -85,7 +85,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
           <li className="w-[97px]">
             <Link
               aria-label="Next page button"
-              className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
+              className="btn-pagination"
               href={`${POSTS_ROUTE}?${setValueAndGetUrlFromSearchParams(
                 PAGE_PARAM_KEY,
                 (page + 1).toString(),
