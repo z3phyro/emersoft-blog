@@ -39,13 +39,13 @@ export default async function Post({ params: { slug } }: Props) {
     <article className="container flex flex-col items-center">
       <div className="relative w-full h-[400px] mb-8">
         <ImageWithFallback
+          style={{ viewTransitionName: `image-${post.slug}` }}
           aria-label="Main post image"
           className="object-cover"
-          priority
           src={post.imageUrl}
-          alt="Post Main Image"
           fallback={FALLBACK_LARGE_IMAGE_URL}
           placeholder={PLACEHOLDER_IMAGE_DATA}
+          alt="Post Main Image"
           fill
         />
       </div>
@@ -59,8 +59,12 @@ export default async function Post({ params: { slug } }: Props) {
           />
         ))}
       </div>
-      <h1 aria-label="Post title" className="text-4xl mb-4">{post.title}</h1>
-      <p aria-label="Post content" className="self-start">{post.excerpt}</p>
+      <h1 aria-label="Post title" className="text-4xl mb-4"
+        style={{ viewTransitionName: `title-${post.slug}` }}
+      >{post.title}</h1>
+      <p aria-label="Post content" className="self-start"
+        style={{ viewTransitionName: `content-${post.slug}` }}
+      >{post.excerpt}</p>
     </article>
   );
 }

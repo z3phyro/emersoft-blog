@@ -19,21 +19,37 @@ export default function BlogPost(props: Props) {
   const params = useSearchParams();
   const search = params.get(SEARCH_PARAM_KEY) || "";
 
+  const handleClick = () => {
+    // @ts-ignore
+    if (!document.startViewTransition) {
+      return;
+    }
+
+    // @ts-ignore
+    document.startViewTransition(() => { });
+  }
+
   return (
     <article
-      onClick={() => router.push(`${POSTS_ROUTE}/${props.slug}`)}
-      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 cursor-pointer"
+      onMouseEnter={() => router.prefetch(`${POSTS_ROUTE}/${props.slug}`)}
+      onClick={handleClick}
+      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300"
       role="article"
       aria-label="Post">
-      <ImageWithFallback
-        className="rounded-t object-cover"
-        aria-label="Post Image"
-        src={props.imageUrl}
-        alt={props.title}
-        width={400}
-        height={300}
-        placeholder={PLACEHOLDER_IMAGE_DATA}
-      />
+      <Link href={`${POSTS_ROUTE}/${props.slug}`}>
+        <ImageWithFallback
+          style={{
+            viewTransitionName: `image-${props.slug}`
+          }}
+          className="rounded-t object-cover"
+          aria-label="Post Image"
+          src={props.imageUrl}
+          alt={props.title}
+          width={400}
+          height={300}
+          placeholder={PLACEHOLDER_IMAGE_DATA}
+        />
+      </Link>
       <div className="p-4">
         <div className="flex gap-4 mb-2">
           {props.categoriesData.map((category) => (
@@ -45,13 +61,17 @@ export default function BlogPost(props: Props) {
             />
           ))}
         </div>
-        <h3 aria-label="Title" role="heading" className="mb-2 text-lg font-extrabold">
-          <Link href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
+        <h3 aria-label="Title" role="heading" className="mb-2 text-lg font-extrabold"
+          style={{ viewTransitionName: `title-${props.slug}` }}
+        >
+          <Link href={`${POSTS_ROUTE}/${props.slug}`}>
             {props.title}
           </Link>
         </h3>
-        <p aria-label="Summary" className="text-gray-600">
-          <Link z-index="-1" href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
+        <p aria-label="Summary" className="text-gray-600"
+          style={{ viewTransitionName: `content-${props.slug}` }}
+        >
+          <Link href={`${POSTS_ROUTE}/${props.slug}`}>
             {props.excerpt}
           </Link>
         </p>
