@@ -10,13 +10,17 @@ import {
   SEARCH_PARAM_KEY,
 } from "@/config/constants.config";
 import { TCategory } from "@/data/models/category.model";
-import { findCategories, getIdFromCategory } from "@/helpers/categories.helper";
+import { findCategories } from "@/helpers/categories.helper";
 import Filters from "@/components/filters/filters.component";
 import { setValueAndGetUrlFromSearchParams } from "@/helpers/query-params.helper";
 
-async function getData(): Promise<{ posts: TPost[]; categories: TCategory[] }> {
+async function getData(
+  page: number,
+  category: string,
+  search: string,
+): Promise<{ posts: TPost[]; categories: TCategory[] }> {
   const [posts, categories] = await Promise.allSettled([
-    fetch(POSTS_ENDPOINT),
+    fetch(`${POSTS_ENDPOINT}?page=${page}&category=${category}&search=${search}`),
     fetch(CATEGORIES_ENDPOINT),
   ]);
 
@@ -35,25 +39,19 @@ export const metadata = {
 };
 
 export default async function Post({ searchParams }: { searchParams: any }) {
-  const { posts, categories } = await getData();
-
   const page = Number(searchParams[PAGE_PARAM_KEY] || "1");
-  const category = searchParams[CATEGORY_PARAM_KEY];
-  const search = searchParams[SEARCH_PARAM_KEY];
-  const categoryId = category ? getIdFromCategory(category, categories) : undefined;
+  const category = searchParams[CATEGORY_PARAM_KEY] || "";
+  const search = searchParams[SEARCH_PARAM_KEY] || "";
 
-  const filteredPosts = posts
-    .filter((post) => !search || post.title.toLowerCase().indexOf(search.toLowerCase()) > -1)
-    .filter((post) => !categoryId || post.categories.some((id) => id === categoryId))
-    .slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page);
+  const { posts, categories } = await getData(page, category, search);
 
   return (
     <>
       <Filters categories={categories} />
       <section className="container">
         <div className="flex flex-wrap justify-center tablet:justify-start gap-8 mb-8">
-          {filteredPosts.length ? (
-            filteredPosts.map((post) => (
+          {posts.length ? (
+            posts.map((post) => (
               <BlogPost
                 key={post.slug}
                 {...post}
@@ -80,7 +78,7 @@ export default async function Post({ searchParams }: { searchParams: any }) {
             </Link>
           </li>
         )}
-        {filteredPosts.length === PAGE_SIZE && (
+        {posts.length === PAGE_SIZE && (
           <li className="w-[97px]">
             <Link
               className="py-2 px-4 rounded-lg shadow hover:shadow-lg ease-in-out duration-300"
