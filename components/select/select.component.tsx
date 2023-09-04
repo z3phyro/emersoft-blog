@@ -13,7 +13,7 @@ export default function Select({ selected, setSelected, options, className, plac
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className={`relative ${className || ""}`}>
-        <Listbox.Button className="relative h-[42px] w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-400 sm:text-sm">
+        <Listbox.Button className="relative h-[42px] w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
           {selected ? (
             <span className="block truncate">{selected}</span>
           ) : (
@@ -33,8 +33,7 @@ export default function Select({ selected, setSelected, options, className, plac
               <Listbox.Option
                 key={"clear"}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
-                    active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+                  `relative select-none py-2 pl-10 pr-4 cursor-pointer ${active ? "bg-amber-100 text-amber-900" : "text-gray-900"
                   }`
                 }
                 value={""}>
@@ -51,8 +50,7 @@ export default function Select({ selected, setSelected, options, className, plac
               <Listbox.Option
                 key={option}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
-                    active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+                  `relative select-none py-2 pl-10 pr-4 cursor-pointer ${active ? "bg-amber-100 text-amber-900" : "text-gray-900"
                   }`
                 }
                 value={option}>

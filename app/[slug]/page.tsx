@@ -37,8 +37,9 @@ export default async function Post({ params: { slug } }: Props) {
 
   return (
     <article className="container flex flex-col items-center">
-      <div className="relative w-full h-[400px]  mb-8">
+      <div className="relative w-full h-[400px] mb-8">
         <ImageWithFallback
+          aria-label="Main post image"
           className="object-cover"
           priority
           src={post.imageUrl}
@@ -51,14 +52,15 @@ export default async function Post({ params: { slug } }: Props) {
       <div className="flex my-2 gap-4">
         {post.categoriesData?.map((category) => (
           <Category
+            aria-label="Category"
             key={category.id}
             href={`/${POSTS_ROUTE}?${CATEGORY_PARAM_KEY}=${category.name}`}
             name={category.name}
           />
         ))}
       </div>
-      <h1 className="text-4xl mb-4">{post.title}</h1>
-      <p className="self-start">{post.excerpt}</p>
+      <h1 aria-label="Post title" className="text-4xl mb-4">{post.title}</h1>
+      <p aria-label="Post content" className="self-start">{post.excerpt}</p>
     </article>
   );
 }

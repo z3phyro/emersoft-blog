@@ -22,9 +22,12 @@ export default function BlogPost(props: Props) {
   return (
     <article
       onClick={() => router.push(`${POSTS_ROUTE}/${props.slug}`)}
-      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 cursor-pointer">
+      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 cursor-pointer"
+      role="article"
+      aria-label="Post">
       <ImageWithFallback
         className="rounded-t object-cover"
+        aria-label="Post Image"
         src={props.imageUrl}
         alt={props.title}
         width={400}
@@ -42,13 +45,13 @@ export default function BlogPost(props: Props) {
             />
           ))}
         </div>
-        <h3 className="mb-2 text-lg font-extrabold">
+        <h3 aria-label="Title" role="heading" className="mb-2 text-lg font-extrabold">
           <Link href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
             {props.title}
           </Link>
         </h3>
-        <p className="text-gray-600">
-          <Link href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
+        <p aria-label="Summary" className="text-gray-600">
+          <Link z-index="-1" href={`${POSTS_ROUTE}/${props.slug}`} prefetch>
             {props.excerpt}
           </Link>
         </p>

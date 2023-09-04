@@ -9,7 +9,9 @@ export default function Category({ href, name, onClick }: Props) {
   return (
     <Link
       className="p-2 rounded-xl bg-gray-100 text-gray-600 hover:text-blue-400 ease-in-out duration-300"
+      aria-label="Category"
       href={href}
+      role="button"
       onClick={onClick}>
       {name}
     </Link>

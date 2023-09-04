@@ -14,6 +14,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
         <ExclamationTriangleIcon className="w-6 h-6" /> Something went wrong!
       </h2>
       <button
+        aria-label="Refresh button"
         className="flex gap-2 items-center rounded-xl shadow hover:shadow-lg justify-center py-2 px-3 ease-in-out duration-300"
         onClick={() => reset()}>
         Try again
