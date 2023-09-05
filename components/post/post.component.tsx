@@ -4,7 +4,7 @@ import { SEARCH_PARAM_KEY } from "@/config/constants.config";
 import { POSTS_ROUTE } from "@/config/routes.config";
 import { TPost } from "@/data/models/post.model";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ImageWithFallback } from "../image-with-fallback/image-with-fallback.component";
 import { TCategory } from "@/data/models/category.model";
 import Category from "../category/category.component";
@@ -15,7 +15,6 @@ type Props = Omit<TPost, "id"> & {
 };
 
 export default function BlogPost(props: Props) {
-  const router = useRouter();
   const params = useSearchParams();
   const search = params.get(SEARCH_PARAM_KEY) || "";
 
@@ -31,7 +30,6 @@ export default function BlogPost(props: Props) {
 
   return (
     <article
-      onMouseEnter={() => router.prefetch(`${POSTS_ROUTE}/${props.slug}`)}
       onClick={handleClick}
       className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300"
       role="article"
