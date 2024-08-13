@@ -31,23 +31,21 @@ export default function BlogPost(props: Props) {
   return (
     <article
       onClick={handleClick}
-      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300"
+      className="rounded-lg shadow-lg bg-white w-[400px] hover:translate-y-1 ease-in-out duration-300 relative"
       role="article"
       aria-label="Post">
-      <Link href={`${POSTS_ROUTE}/${props.slug}`}>
-        <ImageWithFallback
-          style={{
-            viewTransitionName: `image-${props.slug}`
-          }}
-          className="rounded-t object-cover"
-          aria-label="Post Image"
-          src={props.imageUrl}
-          alt={props.title}
-          width={400}
-          height={300}
-          placeholder={PLACEHOLDER_IMAGE_DATA}
-        />
-      </Link>
+      <ImageWithFallback
+        style={{
+          viewTransitionName: `image-${props.slug}`
+        }}
+        className="rounded-t object-cover"
+        aria-label="Post Image"
+        src={props.imageUrl}
+        alt={props.title}
+        width={400}
+        height={300}
+        placeholder={PLACEHOLDER_IMAGE_DATA}
+      />
       <div className="p-4">
         <div className="flex gap-4 mb-2">
           {props.categoriesData.map((category) => (
@@ -62,18 +60,16 @@ export default function BlogPost(props: Props) {
         <h3 aria-label="Title" role="heading" className="mb-2 text-lg font-extrabold"
           style={{ viewTransitionName: `title-${props.slug}` }}
         >
-          <Link href={`${POSTS_ROUTE}/${props.slug}`}>
-            {props.title}
-          </Link>
+          {props.title}
         </h3>
         <p aria-label="Summary" className="text-gray-600"
           style={{ viewTransitionName: `content-${props.slug}` }}
         >
-          <Link href={`${POSTS_ROUTE}/${props.slug}`}>
-            {props.excerpt}
-          </Link>
+          {props.excerpt}
         </p>
       </div>
-    </article>
+      <Link className="absolute inset-0" href={`${POSTS_ROUTE}/${props.slug}`}>
+      </Link>
+    </article >
   );
 }
