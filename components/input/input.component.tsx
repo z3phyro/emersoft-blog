@@ -13,7 +13,7 @@ export default function Input({ className, defaultValue, onChange, placeholder, 
       )}
       <input
         aria-label="Input"
-        className={`w-full p-2 bg-white rounded outline-0 shadow-md text-sm h-[42px] ${leading ? "pl-10" : ""
+        className={`w-full p-2 bg-white rounded-lg outline-blue-700 shadow-md text-sm h-[42px] ${leading ? "pl-10" : ""
           }`}
         defaultValue={defaultValue}
         onChange={(e) => onChange(e.target.value)}

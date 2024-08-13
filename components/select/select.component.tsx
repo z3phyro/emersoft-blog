@@ -13,7 +13,7 @@ export default function Select({ selected, setSelected, options, className, plac
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className={`relative ${className || ""}`}>
-        <Listbox.Button className="relative h-[42px] w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+        <Listbox.Button className="relative h-[42px] w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-700 sm:text-sm">
           {selected ? (
             <span className="block truncate">{selected}</span>
           ) : (
